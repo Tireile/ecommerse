@@ -1,9 +1,24 @@
 import React from 'react';
+import axios from 'axios';
 import './style.css';
 
 class App extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
+
+    this.state = {
+      loading: false,
+
+      product: {
+        name: '',
+        description: '',
+        link: '',
+        inventory: null,
+        details: [],
+        variants: []
+      }
+    }
+
   }
 
   renderStockStatus(inventory) {
@@ -28,22 +43,42 @@ class App extends React.Component {
 
   renderColorButtons(variants) {
     return (
-      <ul>
-        {variants.map((variant, index) => {
-          return
-          <li key={index}>
-            <button className="button" ></button>
-          </li>
-        })}
+      <ul className="variant-list">
+        {
+          variants.map(({variantId, variantColor}) => {
+            return <li key={variantId} className="variant-item">
+              <button className={`variant-button variant-button-${variantColor}`}></button>
+            </li>
+          })
+        }
       </ul>
     )
   }
 
+  fetchProduct() {
+    return axios.get('http://localhost:3004/product')
+      .then(({ data }) => {
+        this.setState({ product: data })
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
+
+  componentDidMount() {
+    this.setState({ loading: true })
+    this.fetchProduct()
+      .finally(() => {
+        this.setState({ loading: false })
+      })
+  }
+
   render() {
+    const { loading, product } = this.state;
 
-    const { product } = this.props;
-
-
+    if (loading) {
+      return <div className="loading-spinner">Loading...</div>
+    }
 
     return (
       <div>
@@ -65,12 +100,12 @@ class App extends React.Component {
               <h3>Details</h3>
               {this.renderDatailsSocks(product.details)}
             </div>
-            <div className="details">
-              <h4>Details</h4>
-              {this.renderDatailsSocks(product.details)}
+
+            <div className="colors">
+              <h4>Colors</h4>
+              {this.renderColorButtons(product.variants)}
             </div>
           </div>
-
 
         </div>
       </div>

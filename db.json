@@ -1,0 +1,31 @@
+{
+    "product": {
+        "name": "Amazing socks",
+        "description": "Amazing soft socks",
+        "link": "https://www.happysocks.com/eu/rubber-duck-sock-10.html",
+        "inventory": 1,
+        "details": ["80% cotton", "20% polyester", "Gender-neutral"],
+
+        "variants": [
+            {
+                "variantId": 2234,
+                "variantColor": "green",
+                "imageUrl": "https://cdn.shopify.com/s/files/1/0920/4808/products/1-green_800x.jpg?v=1536352096"
+            },
+            {
+                "variantId": 2235,
+                "variantColor": "blue",
+                "imageUrl": "https://partycity6.scene7.com/is/image/PartyCity/_pdp_sq_?$_1000x1000_$&$product=PartyCity/622121"
+            },
+            {
+                "variantId": 2236,
+                "variantColor": "red",
+                "imageUrl": "https://partycity6.scene7.com/is/image/PartyCity/_pdp_sq_?$_1000x1000_$&$product=PartyCity/622121"
+            }
+
+        ]
+
+    }
+
+
+}
