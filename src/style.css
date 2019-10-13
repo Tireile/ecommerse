@@ -79,7 +79,15 @@ img {
   font-size: 14px;
 }
 .variant-button-green {
-  background-color: green;
+  background-color: #2ec75c;
+}
+
+.variant-button-blue {
+  background-color: #2e7dc7;
+}
+
+.variant-button-red {
+  background-color: #e81717;
 }
 
 .disabledButton {

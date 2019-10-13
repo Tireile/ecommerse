@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import './style.css';
+// import Colors from './components/Colors';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +14,6 @@ class App extends React.Component {
         name: '',
         description: '',
         link: '',
-        inventory: null,
         details: [],
         variants: []
       }
@@ -41,11 +41,19 @@ class App extends React.Component {
     )
   }
 
+  // handleClick() {
+  //   const { imageUrl } = this.state.variant[i].imageUrl;
+
+  //   this.setState({
+  //     imageUrl = this.state.variant[i].imageUrl,
+  //   })
+  // }
+
   renderColorButtons(variants) {
     return (
       <ul className="variant-list">
         {
-          variants.map(({variantId, variantColor}) => {
+          variants.map(({ variantId, variantColor }) => {
             return <li key={variantId} className="variant-item">
               <button className={`variant-button variant-button-${variantColor}`}></button>
             </li>
@@ -73,6 +81,12 @@ class App extends React.Component {
       })
   }
 
+  srcUrl(variants) {
+    var foo = variants[2];
+    console.log(foo);
+    return foo;
+  }
+
   render() {
     const { loading, product } = this.state;
 
@@ -88,7 +102,7 @@ class App extends React.Component {
         </div>
         <div className="product">
           <div className="product-image">
-            <img src={product.image} alt=""></img>
+            <img src={this.srcUrl(product.variants)} alt=""></img>
           </div>
           <div className="product-info">
             <a href={product.link} target="_blank">
@@ -100,7 +114,7 @@ class App extends React.Component {
               <h3>Details</h3>
               {this.renderDatailsSocks(product.details)}
             </div>
-
+            {/* <Colors product={product} /> */}
             <div className="colors">
               <h4>Colors</h4>
               {this.renderColorButtons(product.variants)}
