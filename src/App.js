@@ -8,7 +8,7 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      loading: false,
+      loading: true,
 
       product: {
         name: '',
@@ -16,7 +16,10 @@ class App extends React.Component {
         link: '',
         details: [],
         variants: []
-      }
+      },
+
+      selectedVariant: null
+
     }
 
   }
@@ -41,21 +44,26 @@ class App extends React.Component {
     )
   }
 
-  // handleClick() {
-  //   const { imageUrl } = this.state.variant[i].imageUrl;
-
-  //   this.setState({
-  //     imageUrl = this.state.variant[i].imageUrl,
-  //   })
-  // }
+  setVariantByColor(variant) {
+    // const selectedVariant = variants.find((variant) => variant.variantId === variantId);
+    this.setState({
+      selectedVariant: variant
+    })
+  }
 
   renderColorButtons(variants) {
     return (
       <ul className="variant-list">
         {
-          variants.map(({ variantId, variantColor }) => {
+          variants.map((variant) => {
+            const { variantId, variantColor } = variant;
+
             return <li key={variantId} className="variant-item">
-              <button className={`variant-button variant-button-${variantColor}`}></button>
+              <button
+                className={`variant-button variant-button-${variantColor}`}
+                onClick={() => this.setVariantByColor(variant)}
+              >
+              </button>
             </li>
           })
         }
@@ -66,7 +74,10 @@ class App extends React.Component {
   fetchProduct() {
     return axios.get('http://localhost:3004/product')
       .then(({ data }) => {
-        this.setState({ product: data })
+        this.setState({
+          product: data,
+          selectedVariant: data.variants[0]
+        })
       })
       .catch((err) => {
         console.error(err);
@@ -74,21 +85,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ loading: true })
     this.fetchProduct()
       .finally(() => {
         this.setState({ loading: false })
       })
   }
 
-  srcUrl(variants) {
-    var foo = variants[2];
-    console.log(foo);
-    return foo;
-  }
-
   render() {
-    const { loading, product } = this.state;
+    const { loading, product, selectedVariant } = this.state;
 
     if (loading) {
       return <div className="loading-spinner">Loading...</div>
@@ -102,13 +106,13 @@ class App extends React.Component {
         </div>
         <div className="product">
           <div className="product-image">
-            <img src={this.srcUrl(product.variants)} alt=""></img>
+            <img src={selectedVariant.imageUrl} alt=""></img>
           </div>
           <div className="product-info">
             <a href={product.link} target="_blank">
               <h1>{product.name}</h1>
             </a>
-            {this.renderStockStatus(product.inventory)}
+            {this.renderStockStatus(selectedVariant.inventory)}
             <p>{product.description}</p>
             <div className="details">
               <h3>Details</h3>
